@@ -1,4 +1,4 @@
-Atomic Simulation Environment
+rASE - Rosen revision to the Atomic Simulation Environment
 =============================
 
 ASE is a set of tools and Python modules for setting up, manipulating,
