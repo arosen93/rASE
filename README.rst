@@ -4,78 +4,55 @@ rASE - Rosen revision to the Atomic Simulation Environment
 ASE is a set of tools and Python modules for setting up, manipulating,
 running, visualizing and analyzing atomistic simulations.
 
-Webpage: http://wiki.fysik.dtu.dk/ase
+The rASE repository contains all changes made by A.S. Rosen. Many of these
+changes are focused on making the `Vasp` calculator more intuitive and
+with more features, many of which are adopted in part from J. Kitchin's
+`vasp`.
 
+The major changes are listed below. Only the mandatory arguments are shown. Please refer to the corresponding
+sections of the program for more details.
+
+*New module*: **ase.vibrations.vib_util**
+
+``vib_util.freq_to_energy(vib_freq)``:
+
+Converts a list of vibrational frequencies in cm^(-1) to eV
+
+``vib_util.energy_to_freq(vib_energies)``:
+
+Converts a list of vibrational energies in eV to cm^(-1)
+
+*New module*: **ase.calculators.vasp.vib**
+
+``vib.get_vibrational_frequencies(atoms)``:
+
+Adopted from J.Kitchin. Takes an atoms object and gets the vibrational
+frequencies from an OUTCAR file
+
+``vib.get_vibrational_modes(atoms)``:
+
+Adopted from J.Kitchin. Takes an atoms object and gets the vibrational
+modes from an OUTCAR file
+
+*Modification*: **ase.thermochemistry**
+
+Changed the reference pressure from 1 atm to 1 bar, per IUPAC standards.
 
 Requirements
 ------------
 
-* Python_ 2.7, 3.4-3.6
-* NumPy_ (base N-dimensional array package)
+* Python 2.7, 3.4-3.6
+* NumPy
 
 Optional:
 
-* SciPy_ (library for scientific computing)
-* For ASE's GUI: Matplotlib_ (2D Plotting)
+* SciPy
+* Matplotlib
 
 
 Installation
 ------------
 
-Add ``~/ase`` to your $PYTHONPATH environment variable and add
-``~/ase/bin`` to $PATH (assuming ``~/ase`` is where your ASE folder is).
+Add ``~/rASE`` to your $PYTHONPATH environment variable and add
+``~/rASE/bin`` to $PATH (assuming ``~/rASE`` is where your rASE folder is).
 
-
-Testing
--------
-
-Please run the tests::
-
-    $ ase test  # takes 1 min.
-
-and send us the output if there are failing tests.
-
-
-Contact
--------
-
-* Mailing list: ase-users_
-* IRC_: #ase on freenode.net
-
-Please send us bug-reports, patches, code, ideas and questions.
-
-
-Example
--------
-
-Geometry optimization of hydrogen molecule with NWChem:
-
->>> from ase import Atoms
->>> from ase.optimize import BFGS
->>> from ase.calculators.nwchem import NWChem
->>> from ase.io import write
->>> h2 = Atoms('H2',
-               positions=[[0, 0, 0],
-                          [0, 0, 0.7]])
->>> h2.calc = NWChem(xc='PBE')
->>> opt = BFGS(h2, trajectory='h2.traj')
->>> opt.run(fmax=0.02)
-BFGS:   0  19:10:49    -31.435229     2.2691
-BFGS:   1  19:10:50    -31.490773     0.3740
-BFGS:   2  19:10:50    -31.492791     0.0630
-BFGS:   3  19:10:51    -31.492848     0.0023
->>> write('H2.xyz', h2)
->>> h2.get_potential_energy()  # ASE's units are eV and Ang
--31.492847800329216
-
-::
-
-    $ ase gui h2.traj
-
-
-.. _Python: http://www.python.org/
-.. _NumPy: http://docs.scipy.org/doc/numpy/reference/
-.. _SciPy: http://docs.scipy.org/doc/scipy/reference/
-.. _Matplotlib: http://matplotlib.org/
-.. _ase-users: https://listserv.fysik.dtu.dk/mailman/listinfo/ase-users
-.. _IRC: http://webchat.freenode.net/?randomnick=0&channels=ase
