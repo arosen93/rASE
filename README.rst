@@ -34,6 +34,10 @@ modes from an OUTCAR file
 
 Changed the reference pressure from 1 atm to 1 bar, per IUPAC standards.
 
+*Modification*: **ase.calculators.vasp.create_input**
+
+Changed the default pseudopotentials to be those recommended in the VASP manual
+
 Requirements
 ------------
 
