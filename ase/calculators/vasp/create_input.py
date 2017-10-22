@@ -779,19 +779,38 @@ class GenerateVaspInput(object):
         'hse06': {'gga': 'PE', 'lhfcalc': True, 'hfscreen': 0.2},
         'hsesol': {'gga': 'PS', 'lhfcalc': True, 'hfscreen': 0.2}}
 
-    # elements which have no-suffix files only
-    setups_defaults = {'K':  '_pv',
-       'Ca': '_pv',
-       'Rb': '_pv',
-       'Sr': '_sv',
-       'Y':  '_sv',
-       'Zr': '_sv',
-       'Nb': '_pv',
+    # VASP-recommended defaults (if not specified, assume no-suffix)
+    setups_defaults = {'Li': '_sv',
+       'Na': '_pv',
+       'K': '_sv',
+       'Rb': '_sv',
        'Cs': '_sv',
+       'Ca': '_sv',
+       'Sr': '_sv',
        'Ba': '_sv',
-       'Fr': '_sv',
-       'Ra': '_sv',
-       'Sc': '_sv'}
+       'Sc': '_sv',
+       'Y': '_sv',
+       'Ru': '_pv',
+       'Ti': '_sv',
+       'Zr': '_sv',
+       'Rh': '_pv',
+       'Hf': '_pv',
+       'V': '_sv',
+       'Nb': '_sv',
+       'Ta': '_pv',
+       'Cr': '_pv',
+       'Mo': '_sv',
+       'W': '_pv',
+       'Mn': '_pv',
+       'Tc': '_pv',
+       'Ga': '_d',
+       'In': '_d',
+       'Tl': '_d',
+       'Ge': '_d',
+       'Sn': '_d',
+       'Pb': '_d',
+       'Po': '_d',
+       'At': '_d'}
 
 
     def __init__(self, restart=None):
