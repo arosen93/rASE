@@ -4,6 +4,7 @@ rASE - Rosen revision to the Atomic Simulation Environment
 ASE is a set of tools and Python modules for setting up, manipulating,
 running, visualizing and analyzing atomistic simulations. 
 The rASE repository contains all changes made by A.S. Rosen.
+It will always be up-to-date with the current build of ASE.
 
 The major changes are listed below. Only the mandatory arguments are shown. Please refer to the corresponding
 sections of the program for more details.
