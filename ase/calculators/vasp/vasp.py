@@ -564,6 +564,8 @@ class Vasp(GenerateVaspInput, Calculator):
                 converged = False
             else:
                 converged = True
+        if converged == False:
+            print('WARNING: Convergence condition not met')
         return converged
 
     def read_ibz_kpoints(self):
