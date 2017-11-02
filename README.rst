@@ -39,6 +39,8 @@ Changed the reference pressure from 1 atm to 1 bar, per IUPAC standards.
 
 Changed the default pseudopotentials to be those recommended in the VASP manual
 
+*Modification*: A warning message is printed when convergence criteria not met in VASP
+
 Requirements
 ------------
 
