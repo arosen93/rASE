@@ -110,7 +110,11 @@ class Gaussian(FileIOCalculator):
     name = 'Gaussian'
 
     implemented_properties = ['energy', 'forces', 'dipole']
-    command = 'g09 < PREFIX.com > PREFIX.log'
+    if 'GAUSSIAN_EXE' in os.environ:
+      g_exe = os.environ['GAUSSIAN_EXE']
+    else:
+      g_exe = 'g09'
+    command = g_exe+' < PREFIX.com > PREFIX.log'
 
     default_parameters = {'charge': 0,
                           'method': 'hf',
@@ -118,7 +122,7 @@ class Gaussian(FileIOCalculator):
                           'force': 'force'}
 
     def __init__(self, restart=None, ignore_bad_restart_file=False,
-                 label='g09', atoms=None, scratch=None, ioplist=list(),
+                 label=g_exe, atoms=None, scratch=None, ioplist=list(),
                  basisfile=None, extra=None, addsec=None, **kwargs):
 
         """Constructs a Gaussian-calculator object.
