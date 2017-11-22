@@ -115,7 +115,7 @@ class Vasp(GenerateVaspInput, Calculator):
                 atoms.positions = atoms_sorted[self.resort].positions
                 atoms.cell = atoms_sorted.cell
 
-        self.converged = self.read_convergence()
+        self.converged, self.scf_converged, self.nsw_converged = self.read_convergence()
         self.set_results(atoms)
 
     def set_results(self, atoms):
@@ -201,7 +201,7 @@ class Vasp(GenerateVaspInput, Calculator):
         self.read_potcar()
 
         self.old_input_params = self.input_params.copy()
-        self.converged = self.read_convergence()
+        self.converged, self.scf_converged, self.nsw_converged = self.read_convergence()
 
     def set_atoms(self, atoms):
         if (atoms != self.atoms):
@@ -525,6 +525,8 @@ class Vasp(GenerateVaspInput, Calculator):
     def read_convergence(self):
         """Method that checks whether a calculation has converged."""
         converged = None
+        scf_converged = None
+        nsw_converged = None
         # First check electronic convergence
         for line in open('OUTCAR', 'r'):
             if 0:  # vasp always prints that!
@@ -556,6 +558,7 @@ class Vasp(GenerateVaspInput, Calculator):
                 else:
                     converged = False
                     continue
+        scf_converged = converged
         # Then if ibrion in [1,2,3] check whether ionic relaxation
         # condition been fulfilled
         if ((self.int_params['ibrion'] in [1, 2, 3] and
@@ -564,9 +567,10 @@ class Vasp(GenerateVaspInput, Calculator):
                 converged = False
             else:
                 converged = True
+            nsw_converged = converged
         if converged == False:
             print('WARNING: Convergence condition not met')
-        return converged
+        return converged, scf_converged, nsw_converged
 
     def read_ibz_kpoints(self):
         lines = open('OUTCAR', 'r').readlines()
