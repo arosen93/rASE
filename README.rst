@@ -38,8 +38,6 @@ Changed the default pseudopotentials to be those recommended in the VASP manual
 
 *Modification*: A warning message is printed when convergence criteria not met in VASP
 
-*Modification*: Added an `scf_converged` and `nsw_converged` flag to the VASP calculator
-
 Requirements
 ------------
 
