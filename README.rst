@@ -3,8 +3,9 @@ rASE - Rosen revision to the Atomic Simulation Environment
 
 ASE is a set of tools and Python modules for setting up, manipulating,
 running, visualizing and analyzing atomistic simulations. 
-The rASE repository contains all changes made by A.S. Rosen.
-It will always be up-to-date with the current build of ASE.
+The rASE repository is always up-to-date with the current build of ASE,
+but it also includes changes I have made that have not made their way
+to the main ASE repository.
 
 The major changes are listed below. Only the mandatory arguments are shown. Please refer to the corresponding
 sections of the program for more details.
@@ -31,15 +32,13 @@ frequencies from an OUTCAR file
 Adopted from J.Kitchin. Takes an atoms object and gets the vibrational
 modes from an OUTCAR file
 
-*Modification*: **ase.thermochemistry**
-
-Changed the reference pressure from 1 atm to 1 bar, per IUPAC standards.
-
 *Modification*: **ase.calculators.vasp.create_input**
 
 Changed the default pseudopotentials to be those recommended in the VASP manual
 
 *Modification*: A warning message is printed when convergence criteria not met in VASP
+
+*Modification*: Added an `scf_converged` and `nsw_converged` flag to the VASP calculator
 
 Requirements
 ------------
