@@ -7,7 +7,7 @@ The rASE repository is always up-to-date with the current build of ASE,
 but it also includes changes I have made that have not made their way
 to the main ASE repository.
 
-The major changes are listed below. Only the mandatory arguments are shown. Please refer to the corresponding
+The major changes from the current ASE build are listed below. Only the mandatory arguments are shown. Please refer to the corresponding
 sections of the program for more details.
 
 *New module*: **ase.vibrations.vib_util**
@@ -34,11 +34,13 @@ modes from an OUTCAR file
 
 *Modification*: **ase.calculators.vasp.create_input**
 
-Changed the default pseudopotentials to be those recommended in the VASP manual
+*Modification*: Changed the default pseudopotentials to be those recommended in the VASP manual
 
 *Modification*: A warning message is printed when convergence criteria not met in VASP
 
-*Modification*: Added an `scf_converged` and `nsw_converged` flag to the VASP calculator
+*Modification*: Added an `scf_converged` and `nsw_converged` flag to the VASP calculator in addition to the normal `converged` flag
+
+*Modification*: Fixes bug when reading OUTCARs that have poorly formatted numbers of the type \d-\d when they should be \d -\d
 
 Requirements
 ------------
