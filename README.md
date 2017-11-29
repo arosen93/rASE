@@ -40,7 +40,7 @@ modes from an OUTCAR file
 
 *Modification*: Added an `scf_converged` and `nsw_converged` flag to the VASP calculator in addition to the normal `converged` flag
 
-*Modification*: Fixes bug when reading OUTCARs that have poorly formatted numbers of the type \d-\d when they should be \d -\d
+*Modification*: Fixes bug when reading OUTCARs that have poorly formatted numbers of the type `\d-\d` when they should be `\d -\d`
 
 Requirements
 ------------
