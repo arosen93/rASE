@@ -143,17 +143,37 @@ class Images:
         return
 
     def read(self, filenames, default_index=':', filetype=None):
-        default_index = string2index(default_index)
+        from ase.utils import basestring
+        if isinstance(default_index, basestring):
+            default_index = string2index(default_index)
         images = []
         names = []
         for filename in filenames:
             from ase.io.formats import parse_filename
-            if '@' in filename:
-                filename, index = parse_filename(filename, None)
-            else:
-                filename, index = parse_filename(filename, default_index)
 
-            imgs = read(filename, index, filetype)
+            if '.json@' in filename or '.db@' in filename:
+                # Ugh! How would one deal with this?
+                # The parse_filename and string2index somehow conspire
+                # to cause an error.  See parse_filename
+                # in ase.io.formats for this particular
+                # special case.  -askhl
+                #
+                # TODO Someone figure out how to see what header
+                # a JSON file should have.
+                imgs = read(filename, default_index, filetype)
+                if hasattr(imgs, 'iterimages'):
+                    imgs = list(imgs.iterimages())
+                names += [filename] * len(imgs)
+                images += imgs
+                continue  # Argh!
+
+            if '@' in filename:
+                actual_filename, index = parse_filename(filename, None)
+            else:
+                actual_filename, index = parse_filename(filename,
+                                                        default_index)
+
+            imgs = read(filename, default_index, filetype)
             if hasattr(imgs, 'iterimages'):
                 imgs = list(imgs.iterimages())
 
@@ -168,7 +188,7 @@ class Images:
                 assert len(imgs) == 1
                 step = 1
             for i, img in enumerate(imgs):
-                names.append('{}@{}'.format(filename, start + i * step))
+                names.append('{}@{}'.format(actual_filename, start + i * step))
 
         self.initialize(images, names)
 
