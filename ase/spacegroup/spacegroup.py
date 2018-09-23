@@ -217,6 +217,8 @@ class Spacegroup(object):
     def __index__(self):
         return self.no
 
+    __int__ = __index__
+
     def get_symop(self):
         """Returns all symmetry operations (including inversions and
         subtranslations) as a sequence of (rotation, translation)
@@ -812,7 +814,8 @@ def get_spacegroup(atoms, symprec=1e-5, method='phonopy'):
 
     # use spglib when it is available (and return)
     if has_spglib and method in ['phonopy', 'spglib']:
-        sg = spglib.get_spacegroup(atoms, symprec=symprec)
+        cell = (atoms.cell, atoms.get_scaled_positions(), atoms.numbers)
+        sg = spglib.get_spacegroup(cell, symprec=symprec)
         sg_no = int(sg[sg.find('(') + 1:sg.find(')')])
         return Spacegroup(sg_no)
 
