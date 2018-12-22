@@ -1184,6 +1184,30 @@ class GenerateVaspInput(object):
         # two places where magmoms get written. There is some
         # complication when restarting that often leads to magmom
         # getting written twice. this flag prevents that issue.
+        if (self.dict_params['ldau_luj'] is not None or
+            self.list_int_params['ldaul'] is not None or
+            self.list_float_params['ldauj'] is not None or
+            self.list_float_params['ldauu'] is not None):
+            if self.bool_params['lasph'] is None:
+                self.bool_params['lasph'] = True
+            if self.int_params['ldauprint'] is None:
+                self.int_params['ldauprint'] = 1
+        syms = np.unique(atoms.get_atomic_numbers()).tolist()
+        d_block = np.arange(21,31,1).tolist()+np.arange(39,49,1).tolist()+np.arange(72,81,1).tolist()+np .arange(104,113,1).tolist()
+        f_block = np.arange(57,72,1).tolist()+np.arange(89,104,1).tolist()
+        d_el = False
+        f_el = False
+        for sym in syms:
+        	if sym in d_block:
+        		d_el = True
+        	elif sym in f_block:
+        		f_el = True
+        		d_el = False
+        		break
+        if d_el:
+        	self.int_params['LMAXMIX'] = 4
+        elif f_el:
+        	self.int_params['LMAXMIX'] = 6
         magmom_written = False
         incar = open(join(directory, 'INCAR'), 'w')
         incar.write('INCAR created by Atomic Simulation Environment\n')
