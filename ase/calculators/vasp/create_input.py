@@ -768,14 +768,17 @@ class GenerateVaspInput(object):
         'scan': {'metagga': 'SCAN'},
         'scan-rvv10': {'metagga': 'SCAN', 'luse_vdw': True, 'bparam': 15.7},
         # vdW-DFs
-        'vdw-df': {'gga': 'RE', 'luse_vdw': True, 'aggac': 0.},
-        'optpbe-vdw': {'gga': 'OR', 'luse_vdw': True, 'aggac': 0.0},
+        'vdw-df': {'gga': 'RE', 'luse_vdw': True, 'aggac': 0.0, 'lasph': True},
+        'optpbe-vdw': {'gga': 'OR', 'luse_vdw': True, 'aggac': 0.0, 'lasph': True},
         'optb88-vdw': {'gga': 'BO', 'luse_vdw': True, 'aggac': 0.0,
-                       'param1': 1.1 / 6.0, 'param2': 0.22},
+                       'param1': 1.1 / 6.0, 'param2': 0.22, 'lasph': True},
         'optb86b-vdw': {'gga': 'MK', 'luse_vdw': True, 'aggac': 0.0,
-                        'param1': 0.1234, 'param2': 1.0},
+                        'param1': 0.1234, 'param2': 1.0, 'lasph': True},
         'vdw-df2': {'gga': 'ML', 'luse_vdw': True, 'aggac': 0.0,
-                    'zab_vdw': -1.8867},
+                    'zab_vdw': -1.8867, 'lasph': True},
+        'rev-vdw-df2': {'gga': 'MK', 'luse_vdw': True, 'param1': 0.1234,
+                        'param2':0.711357, 'zab_vdw': -1.8867, 'aggac': 0.0,
+                        'lasph': True},
         'beef-vdw': {'gga': 'BF', 'luse_vdw': True,
                      'zab_vdw': -1.8867},
         # Hartree-Fock and hybrids
@@ -786,7 +789,8 @@ class GenerateVaspInput(object):
         'pbe0': {'gga': 'PE', 'lhfcalc': True},
         'hse03': {'gga': 'PE', 'lhfcalc': True, 'hfscreen': 0.3},
         'hse06': {'gga': 'PE', 'lhfcalc': True, 'hfscreen': 0.2},
-        'hsesol': {'gga': 'PS', 'lhfcalc': True, 'hfscreen': 0.2}}
+        'hsesol': {'gga': 'PS', 'lhfcalc': True, 'hfscreen': 0.2}
+        }
 
     def __init__(self, restart=None):
         self.float_params = {}
@@ -848,7 +852,7 @@ class GenerateVaspInput(object):
             xc_allowed = ', '.join(self.xc_defaults.keys())
             raise ValueError(
                 '{0} is not supported for xc! Supported xc values'
-                'are: {1}'.format(xc, xc_allowed))
+                ' are: {1}'.format(xc, xc_allowed))
         else:
             # XC defaults to PBE pseudopotentials
             if 'pp' not in self.xc_defaults[xc]:
