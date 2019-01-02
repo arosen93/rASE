@@ -1195,7 +1195,7 @@ class GenerateVaspInput(object):
             syms = np.unique(atoms.get_atomic_numbers()).tolist()
             d_block = np.arange(21,31,1).tolist()+np.arange(39,49,1).tolist()+np.arange(72,81,1).tolist()+np .arange(104,113,1).tolist()
             f_block = np.arange(57,72,1).tolist()+np.arange(89,104,1).tolist()
-            if self.int_params['LMAXMIX'] is None:
+            if self.int_params['lmaxmix'] is None:
                 d_el = False
                 f_el = False
                 for sym in syms:
@@ -1206,9 +1206,9 @@ class GenerateVaspInput(object):
                         d_el = False
                         break
                 if d_el:
-                    self.int_params['LMAXMIX'] = 4
+                    self.int_params['lmaxmix'] = 4
                 elif f_el:
-                    self.int_params['LMAXMIX'] = 6
+                    self.int_params['lmaxmix'] = 6
         magmom_written = False
         incar = open(join(directory, 'INCAR'), 'w')
         incar.write('INCAR created by Atomic Simulation Environment\n')
