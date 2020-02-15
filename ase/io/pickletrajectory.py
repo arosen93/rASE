@@ -25,7 +25,7 @@ from ase.calculators.singlepoint import SinglePointCalculator, all_properties
 from ase.calculators.calculator import PropertyNotImplementedError
 from ase.constraints import FixAtoms
 from ase.parallel import world, barrier
-from ase.utils import devnull, basestring
+from ase.utils import devnull
 
 
 class PickleTrajectory:
@@ -79,7 +79,7 @@ class PickleTrajectory:
             msg = 'Please stop using old trajectory files!'
             if mode == 'r':
                 msg += ('\nConvert to the new future-proof format like this:\n'
-                        '\n    $ python -m ase.io.trajectory ' +
+                        '\n    $ python3 -m ase.io.trajectory ' +
                         filename + '\n')
             raise DeprecationWarning(msg)
 
@@ -107,12 +107,12 @@ class PickleTrajectory:
         """
         self.fd = filename
         if mode == 'r':
-            if isinstance(filename, basestring):
+            if isinstance(filename, str):
                 self.fd = open(filename, 'rb')
             self.read_header()
         elif mode == 'a':
             exists = True
-            if isinstance(filename, basestring):
+            if isinstance(filename, str):
                 exists = os.path.isfile(filename)
                 if exists:
                     exists = os.path.getsize(filename) > 0
@@ -127,7 +127,7 @@ class PickleTrajectory:
                     self.fd = devnull
         elif mode == 'w':
             if self.master:
-                if isinstance(filename, basestring):
+                if isinstance(filename, str):
                     if self.backup and os.path.isfile(filename):
                         try:
                             os.rename(filename, filename + '.bak')
@@ -289,7 +289,9 @@ class PickleTrajectory:
         if 0 <= i < N:
             self.fd.seek(self.offsets[i])
             try:
-                d = pickle.load(self.fd)
+                d = pickle.load(self.fd, encoding='bytes')
+                d = {k.decode() if isinstance(k, bytes) else k: v
+                     for k, v in d.items()}
             except EOFError:
                 raise IndexError
             if i == N - 1:
@@ -429,7 +431,7 @@ def stringnify_info(info):
     unpicklable values are dropped and a warning is issued."""
     stringnified = {}
     for k, v in info.items():
-        if not isinstance(k, basestring):
+        if not isinstance(k, str):
             warnings.warn('Non-string info-dict key is not stored in ' +
                           'trajectory: ' + repr(k), UserWarning)
             continue
@@ -553,7 +555,7 @@ def dict2constraints(d):
                     # Special handling of old pickles:
                     c.index = np.arange(len(c.index))[c.index]
             return constraints
-        except (AttributeError, KeyError, EOFError, ImportError):
+        except (AttributeError, KeyError, EOFError, ImportError, TypeError):
             warnings.warn('Could not unpickle constraints!')
             return []
     else:

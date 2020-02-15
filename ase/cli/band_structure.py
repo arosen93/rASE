@@ -1,5 +1,3 @@
-from __future__ import print_function
-
 import json
 import numpy as np
 
@@ -44,6 +42,7 @@ class CLICommand:
     @staticmethod
     def run(args, parser):
         main(args, parser)
+
 
 def atoms2bandstructure(atoms, parser, args):
     cell = atoms.get_cell()
@@ -123,6 +122,7 @@ def read_band_structure(args, parser):
                      .format(objtype or type(bs)))
 
     return bs
+
 
 def main(args, parser):
     import matplotlib.pyplot as plt

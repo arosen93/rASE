@@ -1,7 +1,5 @@
-# -*- encoding: utf-8
 "Module for displaying information about the system."
 
-from __future__ import unicode_literals
 
 import numpy as np
 from ase.gui.i18n import _
@@ -21,6 +19,7 @@ def info(gui):
     atoms = gui.atoms
 
     tokens = []
+
     def add(token=''):
         tokens.append(token)
 
@@ -91,7 +90,7 @@ def info(gui):
                         quantity = get_quantity()
                 except Exception as err:
                     quantity = None
-                    errmsg = ('An error occured while retrieving {} '
+                    errmsg = ('An error occurred while retrieving {} '
                               'from the calculator: {}'.format(name, err))
                     warnings.warn(errmsg)
                 return quantity
