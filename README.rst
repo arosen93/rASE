@@ -7,7 +7,7 @@ running, visualizing and analyzing atomistic simulations. rASE is just a modific
 Requirements
 ------------
 
-* Python_ 3.5 or later
+* Python_ 3.6 or later
 * NumPy_ (base N-dimensional array package)
 * SciPy_ (library for scientific computing)
 
