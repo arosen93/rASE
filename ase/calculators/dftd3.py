@@ -51,7 +51,6 @@ class DFTD3(FileIOCalculator):
 
         self.dft = None
         FileIOCalculator.__init__(self, restart=None,
-                                  ignore_bad_restart_file=False,
                                   label=label,
                                   atoms=atoms,
                                   command=command,
@@ -377,7 +376,7 @@ class DFTD3(FileIOCalculator):
                             for j, x in enumerate(line.split()):
                                 stress[i, j] = float(x)
                     stress *= Hartree / Bohr / self.atoms.get_volume()
-                    stress = np.dot(stress, self.atoms.cell.T)
+                    stress = np.dot(stress.T, self.atoms.cell)
                 self.comm.broadcast(stress, 0)
                 self.results['stress'] = stress.flat[[0, 4, 8, 5, 2, 1]]
 
