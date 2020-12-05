@@ -1706,8 +1706,12 @@ class Turbomole(FileIOCalculator):
                 x = float(match.group(1)) * Bohr
                 y = float(match.group(3)) * Bohr
                 z = float(match.group(5)) * Bohr
-                symbol = str(match.group(7))
-                atoms += Atom(symbol.capitalize(), (x, y, z))
+                symbol = str(match.group(7)).capitalize()
+
+                if symbol == 'Q':
+                    symbol = 'X'
+                atoms += Atom(symbol, (x, y, z))
+
                 continue
             # gradient lines
             regex = (
@@ -1975,8 +1979,7 @@ class Turbomole(FileIOCalculator):
         return self.forces.copy()
 
     def get_dipole_moment(self, atoms):
-        if self.update_energy:
-            self.get_potential_energy(atoms)
+        self.get_potential_energy(atoms)
         self.read_dipole_moment()
         return self.dipole
 
@@ -2028,9 +2031,8 @@ class Turbomole(FileIOCalculator):
 
     def get_charges(self, atoms):
         """return partial charges on atoms from an ESP fit"""
-        if self.charges is None:
-            self.calculate(atoms)
-            self.read_charges()
+        self.get_potential_energy(atoms)
+        self.read_charges()
         return self.charges
 
     def read_charges(self):
